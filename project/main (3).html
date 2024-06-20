@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8" /><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+<script type="text/javascript">
+function t_onFuncLoad(funcName, okFunc, time) 
+{
+	if (typeof window[funcName] === 'function') {okFunc();}
+	else
+	 {
+		setTimeout(function() {
+			t_onFuncLoad(funcName, okFunc, time);}, (time || 100));
+	}
+}
+</script><script src="https://static.tildacdn.com/js/jquery-1.10.2.min.js" charset="utf-8" onerror="this.loaderr='y';"></script> 
+<script type="text/javascript" >
+   ym(95311651, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		  content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>
+		Портал
+	</title>
+
+	<style>
+		html,
+		body,
+		#viewDiv {
+			padding: 0;
+			margin: 0;
+			height: 100%;
+		}
+	</style>
+
+	<link rel="stylesheet"
+		  href="4.26/esri/themes/light/main.css" />
+	<script src="https://js.arcgis.com/4.26"></script>
+	<script src="satellite.js"></script>
+
+	<script>
+		require([
+			"esri/Map",
+			"esri/views/SceneView",
+			"esri/widgets/LayerList",
+            "esri/widgets/Expand",
+			"esri/layers/GraphicsLayer",
+			"esri/Graphic",
+			"esri/request",
+			"esri/geometry"
+		], (Map, SceneView, LayerList, Expand, GraphicsLayer, Graphic, esriRequest) => {
+			const map = new Map({
+				basemap: "satellite"
+			});
+			// Настройки сцены
+			const view = new SceneView({
+				container: "viewDiv",
+				map: map,
+				spatialReference: {
+					wkid: 3857
+				},
+				constraints: {
+					altitude: {
+						max: 590000000
+					}
+				},
+				popup: {
+					dockEnabled: true,
+					dockOptions: {
+						breakpoint: false
+					}
+				},
+				environment: {
+					lighting: {
+						type: "virtual"
+					}
+				}
+			});
+
+			view.popup.watch("selectedFeature", () => {
+				satelliteTracks.removeAll();
+			});
+
+			// Получение координат выбранного спутника в разные периоды времени
+			view.popup.on("trigger-action", (event) => {
+				if (event.action.id === "track") {
+					satelliteTracks.removeAll();
+
+					let graphic = view.popup.selectedFeature;
+					let trackFeatures = [];
+
+					for (let i = 0; i < (24 / period) * 60; i++) {
+						let loc = null;
+						try {
+							loc = getSatelliteLocation(
+								new Date(graphic.attributes.time + i * 1000 * 60),
+								graphic.attributes.line1,
+								graphic.attributes.line2
+							);
+						} catch (error) { }	
+
+						if (loc !== null) {
+							trackFeatures.push([loc.x, loc.y, loc.z]);
+						}
+                        period = Number(graphic.attributes.line2.substring(52, 63));
+					}
+
+					// Отрисовка орбиты выбранного спутника
+					let track = new Graphic({
+						geometry: {
+							type: "polyline",
+							paths: [trackFeatures]
+						},
+						symbol: {
+							type: "line-3d",
+							symbolLayers: [
+								{
+									type: "line",
+									material: {
+										color: [50, 50, 192, 1]
+									},
+									size: 3
+								}
+							]
+						}
+					});
+
+					satelliteTracks.add(track);
+				}
+			});
+
+			const satelliteLayer = new GraphicsLayer({
+				title: "Спутники"
+			});
+			const satelliteTracks = new GraphicsLayer({
+				title: "Орбиты"
+			});
+
+			map.addMany([satelliteLayer, satelliteTracks]);
+
+			let url ="TLE.txt"; // Ссылка на текстовой файл с данными tle
+            let period;
+
+			esriRequest(url, {
+				responseType: "text"
+			}).then(function (response) {
+				const txt = response.data;
+				///p
+
+				/*const { Client } = require('pg'); 
+				const client = new Client({ 
+					host: '93.180.1.182', 
+					port: 54321, 
+					user: 'db_reader', 
+					password: 'Un4bAVqP2t', 
+					database: 'ballisticdb' 
+				}); 
+				client.connect() 
+				.then(() => { 
+					// Запрос к таблице TLE 
+					return client.query('SELECT * FROM public.measurements');
+				 }) 
+				 .then(res => { 
+					// Выводим данные таблицы TLE на экран 
+					console.log('TLE Table Data:', res.rows); 
+				}) 
+				.catch(err => { 
+					console.error('Error executing query', err.stack); 
+				}) 
+				.finally(() => { 
+					// Закрытие подключения 
+					client.end(); 
+				});
+				*/
+			   /* fso = CreateObject("Scripting.FileSystemObject");
+				s = fso.CreateTextFile("C:\Users\varva\Desktop\Йоу\ПРОЕКТ\Проект1\TLE.txt", True);
+				s.writeline("HI");
+				s.writeline("Bye");
+				s.writeline("-----------------------------");
+				s.Close();*/
+				// Получение tle данных о спутнике
+				const lines = txt.split("\n");
+				const count = (lines.length / 3).toFixed(0);
+				
+					for (let i = 0; i < count; i++) {
+						let commonName = lines[i * 3 + 0];
+						let line1 = lines[i * 3 + 1];
+						let line2 = lines[i * 3 + 2];
+						let time = Date.now();
+						
+					
+						// Информация о спутнике
+						const designator = line1.substring(9, 16);
+						const launchYear = designator.substring(0, 2);
+						const fullLaunchYear =
+							Number(launchYear) >= 57 ? `19${launchYear}` : `20${launchYear}`;
+						const launchNum = Number(designator.substring(2, 5)).toString();
+						const noradId = Number(line1.substring(3, 7));
+						period = Number(line2.substring(52, 63));
+						const inclo = Number(line2.substring(8, 16));
+						const ecenStr = "0." + line2.substring(26, 33);
+						const eccentricity = Number(ecenStr);
+						const ascendingNode = Number(line2.substring(17, 25));
+						const argumentOfPerigee = Number(line2.substring(34, 42));
+						let satelliteLoc = null;
+
+						try {
+							satelliteLoc = getSatelliteLocation(new Date(time), line1, line2);
+						} catch (error) { }
+
+						if (satelliteLoc !== null) {
+							let template = {
+								title: "{name}",
+								content: `<p>Пусковой номер <b>{number}</b></p>
+							<p>Год запуска: <b>{year}</b></p>
+							<p>Наклонение орбиты: <b>{inclo}°</b></p>
+							<p>Эксцентриситет орбиты: <b>{eccentricity}</b></p>
+							<p>Долгота восходящего узла орбиты <b>{ascendingNode}°</b></p>
+							<p>Аргумент перицентра: <b>{argumentOfPerigee}°</b></p>`,
+								actions: [
+									{
+										title: "Показать орбиту спутника",
+										id: "track",
+										className: "esri-icon-globe"
+									}
+								]
+								
+							};
+							
+							// Отрисовка точки, где находится спутник
+							let graphic = new Graphic({
+								geometry: satelliteLoc,
+								symbol: {
+									type: "simple-marker",
+									color: [225, 0, 0],
+									size: 14
+								},
+								attributes: {
+									name: commonName,
+									year: fullLaunchYear,
+									id: noradId,
+									number: launchNum,
+									inclo: inclo,
+									eccentricity: eccentricity,
+									ascendingNode: ascendingNode,
+									argumentOfPerigee: argumentOfPerigee,
+									time: time,
+									line1: line1,
+									line2: line2
+								},
+								popupTemplate: template
+							});
+
+							satelliteLayer.add(graphic);
+						}					
+				}
+				
+				setInterval(UpdatePos, 500, satelliteLayer.graphics);
+				function UpdatePos(list) {
+					for (let i = 0; i < count; i++) {
+						let commonName = lines[i * 3 + 0];
+						let line1 = lines[i * 3 + 1];
+						let line2 = lines[i * 3 + 2];
+                        let time = Date.now();
+						let item = list.find(function (graphic) { return graphic.attributes.name == commonName });
+                        try {
+                            satelliteLoc = getSatelliteLocation(new Date(time), line1, line2);
+							item.geometry = satelliteLoc;
+                        } catch (error) { }						
+					}
+				}
+			});
+
+			// Функция получения координат спутника в конкретный момент времени
+			function getSatelliteLocation(date, line1, line2) {
+				const satrec = satellite.twoline2satrec(line1, line2);
+				
+				const positionAndVelocity = satellite.propagate(satrec,date.getUTCFullYear(),date.getUTCMonth(),
+				date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds(),date.getUTCMilliseconds());
+
+				const positionEci = positionAndVelocity.position;
+				const velocityEci = positionAndVelocity.velocity;
+				
+				const gmst = satellite.gstime_from_date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds(), date.getUTCMilliseconds());
+				
+				const positionEcf = satellite.eci_to_ecf(positionEci, -gmst);
+				const positionGd = satellite.eci_to_geodetic(positionEcf, gmst);
+
+                let longitude = positionGd.longitude;
+                let latitude = positionGd.latitude;
+                let altitude = positionGd.height;
+
+                if (isNaN(longitude) || isNaN(latitude) || isNaN(altitude)) {
+					return null;
+				}
+				return {
+					type: "point",
+                    x: satellite.degrees_long(longitude),
+                    y: satellite.degrees_lat(latitude),
+                    z: altitude * 1000
+				};
+			}
+		});
+	</script>
+</head>
+<li>
+	<a onclick="location.href='main2.html'; return false;" href="#"
+	title="View 3D" data-toggle="tooltip" data-placement="right" data-container="body" >
+    <b>2D</b></a>
+</li>
+<body>
+	<div id="viewDiv"></div>
+</body>
+</html>

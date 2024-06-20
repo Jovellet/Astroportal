@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+<html class="no-js" lang="en" theme="">
+    <head>
+    <title>2D карта</title>
+    <style>
+        html[theme='dark-mode'] {
+            filter: invert(1) hue-rotate(180deg);
+        }
+
+        html {
+            transition: all 0.3s ease-in-out;
+                    }
+    </style>
+    <link type="text/css" media="screen" rel="stylesheet preload" as="style"
+          onload="this.onload=null;this.rel='stylesheet'"
+          href="https://isstracker.pl/assets/dist/css/global.min.css?v=_6.18-a"
+    >
+    <link rel="apple-touch-icon" sizes="180x180" href="https://static.isstracker.pl/img/icons/favicons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://static.isstracker.pl/img/icons/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://static.isstracker.pl/img/icons/favicons/favicon-16x16.png"><link rel="manifest" href="https://isstracker.pl/en/manifest.webmanifest"><link type="text/plain" rel="author" href="https://isstracker.pl/humans.txt" /><link type="text/plain" href="https://isstracker.pl/security.txt" /><link rel="mask-icon" href="https://static.isstracker.pl/img/icons/favicons/safari-pinned-tab.svg" color="#5bbad5"><link rel="shortcut icon" href="https://static.isstracker.pl/img/icons/favicons/favicon.ico"><meta name="msapplication-TileColor" content="#da532c"><meta name="msapplication-config" content="https://static.isstracker.pl/img/icons/favicons/browserconfig.xml"><meta name="theme-color" content="#ffffff"><link rel="apple-touch-startup-image" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/9.7__iPad_Pro__7.9__iPad_mini__9.7__iPad_Air__9.7__iPad_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/8.3__iPad_Mini_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/10.5__iPad_Air_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/11__iPad_Pro__10.5__iPad_Pro_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/4__iPhone_SE__iPod_touch_5th_generation_and_later_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/iPhone_14__iPhone_13_Pro__iPhone_13__iPhone_12_Pro__iPhone_12_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/iPhone_11_Pro_Max__iPhone_XS_Max_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/iPhone_8__iPhone_7__iPhone_6s__iPhone_6__4.7__iPhone_SE_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/iPhone_14_Pro_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/8.3__iPad_Mini_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/10.2__iPad_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/10.2__iPad_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/10.9__iPad_Air_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/12.9__iPad_Pro_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/4__iPhone_SE__iPod_touch_5th_generation_and_later_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/10.9__iPad_Air_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/iPhone_14_Pro_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/iPhone_11__iPhone_XR_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/iPhone_8_Plus__iPhone_7_Plus__iPhone_6s_Plus__iPhone_6_Plus_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/iPhone_11__iPhone_XR_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/11__iPad_Pro__10.5__iPad_Pro_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/iPhone_14_Plus__iPhone_13_Pro_Max__iPhone_12_Pro_Max_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/iPhone_11_Pro_Max__iPhone_XS_Max_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/iPhone_8__iPhone_7__iPhone_6s__iPhone_6__4.7__iPhone_SE_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/iPhone_13_mini__iPhone_12_mini__iPhone_11_Pro__iPhone_XS__iPhone_X_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/iPhone_8_Plus__iPhone_7_Plus__iPhone_6s_Plus__iPhone_6_Plus_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/iPhone_13_mini__iPhone_12_mini__iPhone_11_Pro__iPhone_XS__iPhone_X_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/12.9__iPad_Pro_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/iPhone_14_Plus__iPhone_13_Pro_Max__iPhone_12_Pro_Max_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="https://static.isstracker.pl/img/icons/splash/iPhone_14_Pro_Max_landscape.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/iPhone_14__iPhone_13_Pro__iPhone_13__iPhone_12_Pro__iPhone_12_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/9.7__iPad_Pro__7.9__iPad_mini__9.7__iPad_Air__9.7__iPad_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/iPhone_14_Pro_Max_portrait.png"><link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="https://static.isstracker.pl/img/icons/splash/10.5__iPad_Air_portrait.png">    <script>
+
+    </script>
+    <script src="https://isstracker.pl/assets/dist/js/global/global-vendor.min.js?v=_6.18-a" type="text/javascript"></script>
+    <script> (function(){var global=window;global.namespace=function(ns){var parent;if(typeof ns==="string"){parent=global;ns=ns.split(".");for(var i=0,ilen=ns.length;i<ilen;i++){parent[ns[i]]=parent=(typeof parent[ns[i]]==="object"?parent[ns[i]]:{})}}}})();  </script>
+
+    <script src="https://isstracker.pl/assets/dist/js/global/global-main.min.js?v=_6.18-a" type="text/javascript"></script>
+
+    <link rel="alternate" hreflang="pl" href="https://isstracker.pl/" /><link rel="alternate" hreflang="en" href="https://isstracker.pl/en/" />
+    <meta http-equiv="x-dns-prefetch-control" content="on"><link rel="preconnect" href="https://static.isstracker.pl" crossorigin><link rel="dns-prefetch" href="https://static.isstracker.pl" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin><link rel="dns-prefetch" href="https://fonts.googleapis.com" crossorigin><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><link rel="dns-prefetch" href="https://www.google-analytics.com" crossorigin>    <script>(function() {$('html').toggleClass('no-js js');})();
+    </script>
+
+            </head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PFGJPBG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<script async src="https://accounts.google.com/gsi/intermediate"></script>
+<script>
+window.checkUserIsLoggedIn = function() {var checkLimit = 4;var checkCounter = 0;function checkIsLogged() {$.ajax({type: 'POST',url: 'https://isstracker.pl/en/user-api/v1/ping',dataType: 'json',success: function(data, status, xhr) { },complete: function(xhr, status) {if (xhr.status === 200) {location.reload();}}});}function checkStatus() {$('div.spanner').addClass('show');$('div.overlay').addClass('show');$('.ico-load').fadeIn('slow');checkIsLogged();if (checkCounter < checkLimit) {checkCounter++;setTimeout(checkStatus, 2000);} else {location.reload();         }}setTimeout(checkStatus, 10);};
+</script>
+<div id="g_id_intermediate_iframe" data-src="https://isstracker.pl/en/oauth/onetap"></div>
+
+<!-- crit css trackerJsApp -->
+<style>
+    .tracker-app-main-loader {text-align:center;width:100%;}.tracker-app-loader-center {display:inline-block;justify-content:center;}.tracker-app-loader-sat-orbit-container {padding-top:25%;}.tracker-app-loader-sat {height:100px;width:100px;border-radius:50%;position:relative;display:block;border-color:rgb(167, 183, 254);border-style:solid;border-width:1px;animation:tracker-app-loader-sat-move cubic-bezier(1,1,1,1) 4s infinite;}.tracker-app-loader-sat > .tracker-app-loader-sat-cir{background-color:#000;border-radius:50%;position:absolute;border-color:rgb(167, 183, 254);border-style:solid;border-width:1px;padding:4px;content:'';left:70px;}.tracker-app-loader-earth {width:100px;float:left;}*,*:before,*:after {-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}@keyframes tracker-app-loader-sat-move {from{ transform:rotate(360deg); } to { transform:rotate(0deg); }}.spanner{position:absolute;top: 50%;left: 0;background: #2a2a2a55;width: 100%;display:block;text-align:center;height: 100%;color: #FFF;transform: translateY(-50%);z-index: 10000;visibility: hidden;}.overlay{width: 100%;height: 100%;background: rgba(0,0,0,0.5);visibility: hidden;z-index: 10000;}.show{visibility: visible;}.spanner, .overlay{opacity: 0;-webkit-transition: all 0.3s;-moz-transition: all 0.3s;transition: all 0.3s;}.spanner.show, .overlay.show {opacity: 1}
+</style>
+
+    <link rel="stylesheet" href="https://static.isstracker.pl/js/leaflet/1.9.3/leaflet.min.css?v=1" crossorigin=""/><script src="https://static.isstracker.pl/js/leaflet/1.9.3/leaflet.js?v=1" crossorigin=""></script><script src="https://static.isstracker.pl/js/leaflet/esri/3.0.10/esri-leaflet.js" crossorigin=""></script>
+<style>*,:after,:before {box-sizing:border-box;}button:focus {outline:1px dotted;outline:5px auto -webkit-focus-ring-color;}button {border-radius:0;margin:0;font-family:inherit;font-size:inherit;line-height:inherit;overflow:visible;text-transform:none;-webkit-appearance:button;}button::-moz-focus-inner {padding:0;border-style:none;}.d-flex {display:-webkit-flex!important;display:flex!important;}.justify-content-center {-webkit-justify-content:center!important;justify-content:center!important;}@media print {*,:after,:before {text-shadow:none!important;box-shadow:none!important;}}#map-cat-a {position:absolute;right:0;bottom:35px;background:#fff;border-top-left-radius:5px;border-top-right-radius:0;border-bottom-right-radius:0;border-bottom-left-radius:5px;-webkit-border-top-left-radius:5px;-webkit-border-top-right-radius:0;-webkit-border-bottom-right-radius:0;-webkit-border-bottom-left-radius:5px;-moz-border-radius-topleft:5px;-moz-border-radius-topright:0;-moz-border-radius-bottomright:0;-moz-border-radius-bottomleft:5px;background-clip:padding-box;z-index:999;padding:3px;}#map-cat-a .hide-button {background:0 0;border:0;border-top-left-radius:5px;border-top-right-radius:0;border-bottom-right-radius:0;border-bottom-left-radius:0;-webkit-border-top-left-radius:5px;-webkit-border-top-right-radius:0;-webkit-border-bottom-right-radius:0;-webkit-border-bottom-left-radius:0;-moz-border-radius-topleft:5px;-moz-border-radius-topright:0;-moz-border-radius-bottomright:0;-moz-border-radius-bottomleft:0;background-clip:padding-box;background:#fff;position:absolute;top:-21px;right:0;height:21px;font-size:.6875rem;color:#6c757d;}#map-cat-a .hide-button:focus {outline:none;}#map-cat-a .hide-button:hover {cursor:pointer;}#map-cat-a .cat-container {width:728px;height:90px;overflow:hidden;}#map-cat-a .cat-container .adsbygoogle {display:inline-block;width:100%;height:100%;}@media only screen and (min-width:320px) {#map-cat-a .cat-container,#map-cat-a .cat-container .adsbygoogle{width:320px;height:60px;}}@media only screen and (min-width:450px ) {#map-cat-a .cat-container,#map-cat-a .cat-container .adsbygoogle {width:234px;height:60px;}}@media only screen and (min-width:680px) {#map-cat-a .cat-container,#map-cat-a .cat-container .adsbygoogle {width:468px;height:60px;}}@media only screen and (min-width:944px) {#map-cat-a .cat-container,#map-cat-a .cat-container .adsbygoogle {width:728px;height:90px;}}@media (max-width:575.98px) {#map-cat-a {right:0;left:0;bottom:auto;width:100%;height:66px!important;border-radius:0;box-shadow:0 6px 14px 2px rgba(0,0,0,.07);}#map-cat-a .hide-button{display:none;}#map-cat-a .cat-container,#map-cat-a .cat-container .adsbygoogle {width:320px!important;height:65px!important;}}.cat-container iframe.fallback {border:0;width:100%;height:100%;}</style>  
+
+
+    <script type="text/javascript"         src="https://isstracker.pl/assets/dist/js/modules/tracker/tracker-app.min.js?v=152"
+    ></script>
+
+
+
+<link href="https://isstracker.pl/assets/dist/css/modules/tracker/tracker-app.min.css?v=35"
+    media="screen" rel="stylesheet" type="text/css"
+>
+
+
+
+
+
+<div class="bg-light" >
+    <div class="min-vh-100">
+
+        <div class="">
+            <div class="">
+<div id="sidebar" class="sidebar sidebar-left collapsed" style="display:none;">
+             <ul class="sidebar-tabs js-main-sidebar-tabs" role="tablist">
+        <li>
+            <a onclick="location.href='main.html'; return false;" href="#"
+               title="View 3D" data-toggle="tooltip" data-placement="right" data-container="body" >
+                <b>3D</b>
+            </a>
+        </li>
+        <div class="">
+            <div class="custom-control custom-switch">
+                <input class="custom-control-input js-app-map-terminator" type="checkbox" value="0" id="js-app-map-terminator">
+                <label class="custom-control-label" for="js-app-map-terminator">
+                </label>
+            </div>
+        </div>
+    </ul>
+
+    <div class="sidebar-content active">
+
+                <div class="sidebar-pane" id="iss-js-app-layers">
+            <h1 class="sidebar-header mb-2">Map settings
+                <span class="sidebar-close js-close-sidebar" title="Close panel" data-toggle="tooltip" data-placement="right" data-container="body"><i class="far fa-times-circle"></i></span>
+            </h1>
+
+            <div class="form-group row">
+                <div class="col-11">
+                    <label for="iss-js-app-map-brightness" >Brightness
+                        <span class="badge badge-success js-app-map-brightness-info">100%</span>
+                    </label>
+                    <input type="range" min="20" max="200" step="10" value="100" class="custom-range js-app-map-brightness" id="iss-js-app-map-brightness">
+                </div>
+            </div>
+
+            <div class="">
+                <div class="custom-control custom-switch">
+                    <input class="custom-control-input js-app-map-terminator" type="checkbox" value="0" id="js-app-map-terminator">
+                    <label class="custom-control-label" for="js-app-map-terminator">
+                        Show day/night layer
+                    </label>
+                </div>
+            </div>
+
+            <div class="mt-1">
+                <div class="custom-control custom-switch">
+                    <input class="custom-control-input js-app-map-cloud" type="checkbox" value="0" id="js-app-map-cloud">
+                    <label class="custom-control-label" for="js-app-map-cloud"></i>
+                        Show cloud layer &nbsp;<i class="fas fa-cloud"></i>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mt-1">
+                <div class="custom-control custom-switch">
+                    <input class="custom-control-input js-app-map-rain" type="checkbox" value="0" id="js-app-map-rain">
+                    <label class="custom-control-label" for="js-app-map-rain"></i>
+                        Show rainfall &nbsp;<i class="fas fa-cloud-showers-heavy"></i>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mt-1">
+                <div class="custom-control custom-switch">
+                    <input class="custom-control-input js-app-map-snow" type="checkbox" value="0" id="js-app-map-snow">
+                    <label class="custom-control-label" for="js-app-map-snow"></i>
+                        Show snowfall &nbsp;<i class="far fa-snowflake"></i></i>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mt-1 js-app-map-enable-scroll-wrapper">
+                <div class="custom-control custom-switch">
+                    <input class="custom-control-input js-app-map-enable-scroll" type="checkbox" value="0" id="js-app-map-enable-scroll">
+                    <label class="custom-control-label" for="js-app-map-enable-scroll">
+                        Scroll zoom in/out map &nbsp;<i class="fas fa-mouse"></i>                    </label>
+                </div>
+
+            </div>
+                        <div class="mt-1 js-app-map-enable-dragging-wrapper" style="display:none;">
+                <div class="custom-control custom-switch">
+                    <input class="custom-control-input js-app-map-enable-dragging js-show-in-mobile" type="checkbox" value="0" id="js-app-map-enable-dragging">
+                    <label class="custom-control-label" for="js-app-map-enable-dragging">
+                        Smoothly move and scale the map
+                    </label>
+                </div>
+            </div>
+            
+                                            <div class="mt-1">
+                    <div class="custom-control custom-switch">
+                        <input class="custom-control-input js-app-map-show-orbit" type="checkbox" value="0" id="js-app-map-show-orbit" checked="true">
+                        <label class="custom-control-label" for="js-app-map-show-orbit">
+                            Show orbit
+                        </label>
+                    </div>
+                </div>
+                <div class="mt-1">
+                    <div class="custom-control custom-switch">
+                        <input class="custom-control-input js-app-map-show-future-orbit" type="checkbox" value="0" id="js-app-map-show-future-orbit">
+                        <label class="custom-control-label" for="js-app-map-show-future-orbit">
+                            Show future orbit
+                        </label>
+                    </div>
+                </div>
+            
+                        
+                    </div>
+
+                <div class="sidebar-pane " id="iss-js-app-filters">
+            <h1 class="sidebar-header mb-2">Map filters
+                <span class="sidebar-close js-close-sidebar"
+                      title="Close panel"
+                      data-toggle="tooltip"
+                      data-placement="right"
+                      data-container="body"
+                ><i class="far fa-times-circle"></i></span>
+            </h1>
+
+                        <div class="form-group row js-app-map-sats-list" >
+                <div class="col-xs-12 col-sm-12">
+                    <label for="js-app-map-sats-list-select">
+                        <i class="fas fa-satellite text-primary"></i> Select satellite
+                        <small class="js-app-map-sats-list-select-count" style="display:none;">(0)</small>:
+                    </label><br>
+
+                    <select
+                        class="form-control js-app-map-sats-list-select"
+                        id="js-app-map-sats-list-select"
+                        style="width:90%"
+                        multiple                        data-placeholder="Click to select a satellite to track"
+                    >
+                                                    <option value="25544" selected>ISS - 25544</option>
+                                            </select>
+
+                                            <small class="text-primary">
+                            Select a maximum of 10 satellite.
+
+                                                    </small>
+                    
+                    <span class="badge badge-primary js-app-map-add-sats-to-fav is-clickable"
+                          style="display:none;"
+                          title="Add to Favorites"                     >   <span class="btn-label">
+                            <i class="fas fa-heart"></i>
+                        </span>
+                        Remove from favorites
+                    </span>
+                    <br>
+                                    </div>
+            </div>
+            
+            <div class="form-group row js-app-map-sats-group" >
+                <div class="col-xs-12 col-sm-12">
+                    <label for="js-app-map-sats-group-select">
+                        <i class="fas fa-layer-group text-primary"></i> Select satellite group <small class="js-app-map-sats-group-select-count">(173)</small>:
+                    </label><br>
+
+                    <select
+                            class="form-control js-app-map-sats-group-select"
+                            id="js-app-map-sats-group-select"
+                            style="width:90%"
+                                                        data-placeholder="Click to select a satellite to track"
+                    >
+                        
+                </div>
+            </div>
+
+            <div class="form-group row js-app-map-sats-fav" >
+                <div class="col-xs-12 col-sm-12">
+                    <label for="js-app-map-sats-fav-select">
+                        <i class="fas fa-heart text-primary"></i> Favorite satellites <small class="js-app-map-sats-fav-select-count">(0)</small>:
+                    </label>
+
+                    <span class="badge badge-primary js-app-map-sats-fav-follow is-clickable"
+                          style="display:none;"
+                          title="No satellites searched!"                     >   <span class="btn-label">
+                            <i class="fas fa-location-arrow"></i>
+                        </span>
+                        Follow
+                    </span>
+                    <br>
+
+                    <select
+                            class="form-control js-app-map-fav-group-select"
+                            id="js-app-map-fav-group-select"
+                            style="width:90%"
+                            multiple
+                            data-placeholder="Click to add your favorite satellites"
+                    >
+                    </select>
+                    <small class="text-primary">
+                        Add maximum 10 satellite.
+                                            </small>
+                </div>
+            </div>
+
+                        <div class="form-group row js-app-map-sats-fav" >
+                <div class="col-xs-12 col-sm-12">
+                    <label for="js-app-map-recommended-filters-select"><i class="fas fa-filter text-primary"></i> Show filters:</label>
+                    <br>
+                    <select class="form-control js-app-map-recommended-filters-select"
+                        id="js-app-map-recommended-filters-select" style="width:90%"
+                        data-placeholder="Click to add your favorite satellites"
+                    >
+                        <option data-sat-ids="" value="0"  >select category</option>
+                                                    <option data-set-id="1" data-sat-ids="[25338,28654,33591,57166]">NOAA satellites + METEOR</option>
+                                                    <option data-set-id="2" data-sat-ids="[22490,25504]">Satellite</option>
+                                            </select>
+                                    </div>
+            </div>
+            
+                        <div class="mt-1">
+                <div class="custom-control custom-switch">
+                    <input class="custom-control-input js-app-map-filters-sun"
+                           type="checkbox"
+                           value="0"
+                           checked="true"
+                           id="js-app-map-filters-sun"
+                    >
+                    <label class="custom-control-label" for="js-app-map-filters-sun">
+                        Show Sun Marker
+                    </label>
+                </div>
+            </div>
+
+                
+            <div class="mt-1 js-app-map-filters-country-names-wrapper">
+                <div class="custom-control custom-switch">
+                    <input class="custom-control-input js-app-map-filters-country-names"
+                           type="checkbox"
+                           value="0"
+                           checked="true"
+                           id="js-app-map-filters-country-names"
+                    >
+                    <label class="custom-control-label" for="js-app-map-filters-country-names">
+                        Show more
+                    </label>
+                </div>
+            </div>
+            
+                    </div>
+
+                <div class="sidebar-pane" id="iss-js-app-settings">
+            <h1 class="sidebar-header mb-2">Settings
+                <span class="sidebar-close js-close-sidebar"
+                      title="Close panel"
+                      data-toggle="tooltip"
+                      data-placement="right"
+                      data-container="body"
+                ><i class="far fa-times-circle"></i></span>
+            </h1>
+
+            <div class="mt-1">
+                <div class="custom-control custom-switch">
+                    <input class="custom-control-input js-app-map-metric-imperial"
+                           type="checkbox"
+                           value="1"
+                           checked="true"
+                           id="js-app-map-metric-imperial"
+                    >
+                    <label class="custom-control-label" for="js-app-map-metric-imperial">
+                        Units: <span class="js-app-map-metric-imperial-text">metric</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mt-1">
+                <div class="custom-control custom-switch" style="margin-top: 5px;">
+    <input class="custom-control-input js-app-dark-mode"
+        type="checkbox"
+        onchange="app.tracker.darkMode.collect(this);"
+        value="0"
+        id="js-app-dark-mode"
+            >
+    <label class="custom-control-label" for="js-app-dark-mode">
+                    Night mode
+            </label>
+</div>
+                                <div class="custom-control custom-switch">
+                    <input class="custom-control-input js-app-map-time-controller" type="checkbox" value="0" id="js-app-map-time-controller" >
+                    <label class="custom-control-label" for="js-app-map-time-controller">
+                        Time simulation
+                    </label>
+                </div>
+
+                <div class="js-app-map-time-controller-block col-sm-12" style="display: none;">
+                                        <div class="input-group">
+                        <input type="text" id="date-input" class="form-control js-datepicker datepicker date" value="" placeholder="Select layer">
+                        <div class="input-group-append">
+                            <span class="input-group-text js-app-map-time-controller-reset"><i class="fas fa-undo"></i></span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+
+                         <div class="js-load-settings-wrapper" style="display: none;">
+                <div class="mt-3">
+                    <button type="button" class="btn btn-sm btn-primary  js-load-settings"
+                            title="Load your app settings"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                    >
+                        <i class="fas fa-upload"></i>&nbsp; Load your app settings
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mt-3">
+                <button type="button" class="btn btn-sm btn-outline-warning  js-clear-settings"
+                        title="Restore default application settings"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                >
+                    <i class="far fa-trash-alt"></i>&nbsp; Reset Settings
+                </button>
+            </div>
+
+
+            <div class="sidebar-tle-epoch-time js-tle-epoch-time" style="display: none;">
+                <small class="text-muted">
+                    TLE Epoch Time: <span class="js-tle-epoch-time-text"></span>
+                </small>
+            </div>
+        </div>
+
+                    </div>
+</div>
+
+<div id="mobile_sidebar" class="mobile_sidebar sidebar sidebar-left mobile-sidebar-left collapsed" style="display:none;">
+    <ul class="sidebar-tabs">
+        <li><a href="#" class="js-show-sidebar-panel" title="Show panel"><i class="fas fa-align-justify"></i></a></li>
+    </ul>
+</div>
+<div class="sidebar-sat-app  collapsable collapsed js-sat-sidebar-info" style="display:none;">
+    <div class="sidebar-sat-app-container with-tabbar">
+        <div class="sidebar-content-sat-app" >
+            <div>
+                <div class="container"  style="padding-top: 125px;">
+                    <div class="sat-app-photo js-sat-photo-url"
+                       style="background-image: url(https://isstracker.pl/img/loading_img.gif);"
+                    >
+                        <div class="card-overlay-badge badge badge-success js-satellite-ranking" style="display:none;"></div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+
+                                    <div class="row align-items-center floating-flight-header">
+                                                                                <div class="col">
+                                            <div class="my-auto">
+
+                                               <span class="label text-nowrap">Name</span>
+                                               <span class="value text-nowrap">
+                                                   <strong class="js-sat-sidebar-info-name"></strong>
+                                                   <span class="js-sat-fav-wrapper">
+                                                       <a href="#" class="js-sat-fav-add" title="Add to Favorites">
+                                                           <i class="far fa-heart"></i>
+                                                       </a>
+                                                       <a href="#" class="js-sat-fav-remove" title="Remove from favorites">
+                                                           <i class="fas fa-heart"></i>
+                                                       </a>
+                                                   </span>
+                                               </span>
+                                            </div>
+                                        </div>
+                                       <div class="col">
+                                            <div class="my-auto">
+                                                <span class="label text-nowrap">NORAD ID</span>
+                                                <span class="value text-nowrap">
+                                                    <strong class="js-sat-sidebar-info-norad-number"></strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="sat-app-status ontime">
+                                        <div class="sat-app-info group">
+                                                                                        <div class="flight-progress js-sat-sidebar-info-params">
+                                                                                            </div>                                         </div> 
+                                        <div class="js-chart-wrapper">
+                                            <br>
+                                            <div class="alert alert-success js-alert-info-sat-group" role="alert" style="display: none;">
+                                                <h4 class="alert-heading js-alert-info-sat-group-name"></h4>
+                                                <p>You can follow the entire group!</p>
+                                                <a href="#" class="btn btn-success js-alert-info-sat-group-url"></a>
+                                            </div>
+
+                                                                                    </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="#" class="btn btn-success  btn-sm js-sat-pred-page-url" target="_blank" style="display:none;"
+                                                   title="Check flights"
+                                                >Check flights</a>
+                                             </div>
+
+                                            <div class="col">
+                                                <a href="#" class="btn btn-primary  btn-sm js-sat-page-url" style="display:none;" target="_blank"
+                                                   title="Details of the ISS flight!"
+                                                >Details of the ISS flight!</a>
+                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                                                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                                                        <a href="#" class="btn btn-danger btn-block btn-sm js-sat-sidebar-info-close" target="_blank">Close panel</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+                <div class="sidebar-collapsed-content">
+            <div class="mobile-card container">
+                <div class="control-buttons row justify-content-end">
+                    <div class="col text-right">
+                        <button class="route js-sat-sidebar-info-close">
+                            <i class="fas fa-times fa-lg text-danger"></i>
+                        </button>
+                    </div>
+                </div>
+
+                                
+
+                <div class="row">
+                    <div class="col">
+                        <div class="sat-app-status ontime">
+                            <div class="info-sat group">
+                                <div class="flight-route row">
+                                    <div class="col-8">
+                                        <span class="code js-sat-sidebar-info-name text-primary"></span>
+                                    </div>
+
+                                                                            
+                                                                        <div class="col mobile-sat-photo js-sat-small-photo-url"
+                                        style="display: none; background-image: url(https://isstracker.pl/img/loading_img.gif);">
+                                    </div>
+                                </div>
+
+                                                                <div class="flight-progress flight-progress js-sat-sidebar-info-params">
+                                                                    </div>
+
+                                <div class="row mt-3">
+                                    <div class="col js-sat-pred-page-url-parent-col" style="display: none;">
+                                        <a href="#" class="btn btn-success btn-sm btn-block js-sat-pred-page-url"
+                                            target="_blank"
+                                            style="display: none;"
+                                        >Check flights</a>
+                                    </div>
+
+                                    <div class="col js-alert-info-sat-group" style="display: none;">
+                                        <a href="#" class="btn btn-primary btn-sm btn-block js-alert-info-sat-group-url" target="_blank"></a>
+                                    </div>
+
+                                    <div class="col js-sat-page-url-wrapper">
+                                        <a href="#" class="btn btn-primary btn-sm btn-block js-sat-page-url"
+                                            style="display: none;"
+                                            target="_blank"
+                                        >Details of the ISS flight!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>    
+                <div id="map"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+ <style>.leaflet-container {background-color: #051A39;}#map {/*  position: absolute;  */top: 0px;         bottom: 90px;}#cardholder {z-index: 9999999;}</style>
+
+<style>
+    .labelstyle {z-index: 650;background: rgba(0, 0, 0, 0.4);opacity: 0.8;line-height: 1.1em;border: 0;padding: 3px 3px;border-radius: 0px;color: #ffffff;font-size: 15px;text-shadow: 0px 0px 1.5px #000;}.leaflet-tooltip-top:before,.leaflet-tooltip-bottom:before,.leaflet-tooltip-left:before,.leaflet-tooltip-right:before {position: absolute;pointer-events: none;border: 0px solid transparent;background: transparent;content: "";}.easepick-wrapper {position: fixed !important;}.stop-scrolling {height: 100%;overflow: hidden;}
+</style>
+
+<script>
+    (function() {
+         $(document).ready(function() {                 var asyncAjaxCallback = function() {
+                   $("div.spanner").removeClass("show");
+                   $("div.overlay").removeClass("show");
+                };
+
+                                                <!-- IssJsApp build version: 152 -->
+                tracker.app({
+                    settings: {
+                        o_id : 'actionIndex_1717804239',
+                        userIsLoggedIn: 0,
+                        layoutVersion: 'v2',
+                        app_ver: '152',
+                        imgUrl: 'https://isstracker.pl/img/',
+                        icons: {
+                            sun: 'https://static.isstracker.pl/img/layout/icon_sun.png',
+                        },
+                        mapZoom: 3,
+                        lang: 'en',
+                        i18n: { mapUrlCopied: 'Copied the url to the map!',sun: 'Sun',velocity: 'Velocity',period: 'Period',altitude: 'Height',latitude: 'Latitude',longitude: 'Longitude',follow: 'Click to follow',isTracked: "is tracked",fullscreenOn: "Full Screen",fullscreenOff: "Full Screen",error_3d_load: "There was a problem loading the 3D view, we'll be back in a moment. Sorry for the problem.",units: {1: 'metric',2: 'imperial',},cancel: 'cancel',apply: 'Approve',select2strings: {errorLoading: 'The satellites could not be loaded.',inputTooLong: '',inputTooShort: 'Enter at least three characters.',loadingMore: 'Loading…',maximumSelected: 'You can choose up to 10 satellite.',noResults: 'No satellites.',searching: 'Searching…',removeAllItems: 'show all',},selectedTIme: 'Settings ',selectTime: 'Select layer',},urls: {portal: 'https://isstracker.pl/en',hours: 'https://isstracker.pl/en/iss/godziny-przelotow',catApi: 'https://isstracker.pl/en/portalApi/v1/cats/code',satInfoApi: 'https://isstracker.pl/en/portalApi/v1/sats/info',tleApi: 'https://isstracker.pl/en/portalApi/v1/tle',allTrackedSats: 'https://isstracker.pl/en/portalApi/v1/sats/satellite-stats/all',satsDetails: 'https://isstracker.pl/en/portalApi/v1/sats/satellite-stats/details',userSatsFavs: 'https://isstracker.pl/en/portalApi/v1/sats/user_satellites_fav',trackedSatsAutocomplete: 'https://tracker-autocomplete.isstracker.pl/api/v1/autocomplete.json?entity%5B0%5D=satellite&itemsPerPage=10',appVer: 'https://isstracker.pl/en/portalApi/v1/issjsapp/ver',statTrackedSat: 'https://isstracker.pl/en/portalApi/v1/stats/satellite-stats',statFavSat: 'https://isstracker.pl/en/portalApi/v1/sats/fav',satHeightDetails: 'https://isstracker.pl/en/portalApi/v1/sats/height_details',view3dCzml: 'https://isstracker.pl/en/portalApi/v1/issjsapp/view3dCzml',streamBox: 'https://isstracker.pl/en/portalApi/v1/issjsapp/streamBox',getCosmodromes: 'https://isstracker.pl/en/portalApi/v1/issjsapp/cosmodromes',unitsSettings: 'https://isstracker.pl/en/ustawienia-aplikacji/units',userSettings: 'https://isstracker.pl/en/jsAppApi/saveUserSettings',getUserSettings: 'https://isstracker.pl/en/jsAppApi/getUserSettings',},unitPerSeconds: 0,scriptUrls: {"vendor":{"highcharts":"https:\/\/code.highcharts.com\/highcharts.js"},"tracker_dist":{"modules":"https:\/\/isstracker.pl\/assets\/dist\/js\/modules\/tracker\/tracker-app-modules.min.js?v=6"}},scriptUrlHandle: {jqueryUi: 'https://static.isstracker.pl/js/jquery-ui/jquery-ui.min.js',awesomeMarkers: {"js":"https:\/\/static.isstracker.pl\/js\/Leaflet.awesome-markers\/dist\/leaflet.awesome-markers.min.js","css":"https:\/\/static.isstracker.pl\/js\/Leaflet.awesome-markers\/dist\/leaflet.awesome-markers.min.css"},},
+                        mapType: 'satellite',statTrackedSatTtl:10000,statTrackedSatIntervalAgain:60000,                 units: 1,  darkModeCookieName: 'dark_mode',                        reloadVer: 3600000,
+                        returnToParent: false,                        partnerIdRek: 0,
+                        statUrl: 'https://isstracker.pl/en/staty',
+                        changeBaseMap: 1,
+                        sidebar: 1,
+                        asyncZoomCnt: true,
+                        timeoutFullScreen: 600000,
+                        updateUrl: false,                         forceBlockScroll: true,
+                        noradSatId: 0,
+                        noradSatArray: { },
+                    satGroupId: 0,
+                    maxSatTracked: 10,
+                    allowSatTrack: 1,
+                    showFutureOrbit: 0,
+                    openWeatherMapId: 'e5ad471e570d8e3fcba056010a1a4e8b',
+                    isDev: false,
+                    bId: 0,                    view3d: false,
+                    uSatId: 0,
+                    cesium: {"defaultAccessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0Yzg3N2Q0ZS0wNTYwLTQ3MDQtOWIyOC01NTQ2ZWFjZDE5NzMiLCJpZCI6MjY4MDAsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODgyNzA0Mzl9.DR58uOVDFkSKrB34nTFjtIRDi6fqlhkS3ACGh37C6Ys","showHorizon":0,"mobileZoom":9000000,"desktopZoom":14000000},
+                    mapLayers: {"satellite":{"url":"https:\/\/server.arcgisonline.com\/ArcGIS\/rest\/services\/World_Imagery\/MapServer\/tile\/{z}\/{y}\/{x}","attrib":"&copy; <a href=\"https:\/\/www.esri.com\/\">Esri<\/a>","bg":"#051A39","with_country_name":true},"road":{"url":"https:\/\/{s}.tile.openstreetmap.org\/{z}\/{x}\/{y}.png","attrib":"&copy; <a href=\"http:\/\/osm.org\/copyright\" class=\"\">OpenStreetMap<\/a>, &copy; <a href=\"https:\/\/isstracker.pl\/en\" title=\"ISS Tracker\">ISS Tracker<\/a>","bg":"#AAD3DF","with_country_name":false},"national_geographic_map":{"url":"https:\/\/{s}.tile.openstreetmap.org\/{z}\/{x}\/{y}.png","attrib":"&copy; <a href=\"https:\/\/www.esri.com\/\">Esri<\/a>, National Geographic","bg":"#83B7E6","with_country_name":false},"topo":{"url":"https:\/\/{s}.tile.opentopomap.org\/{z}\/{x}\/{y}.png","attrib":"&copy; <a href=\"https:\/\/opentopomap.org\">OpenTopoMap<\/a>","bg":"#86D07F","with_country_name":false},"nasa":{"url":"https:\/\/map1.vis.earthdata.nasa.gov\/wmts-webmerc\/VIIRS_CityLights_2012\/default\/\/GoogleMapsCompatible_Level8\/{z}\/{y}\/{x}.jpg","attrib":"Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA\/GSFC\/Earth Science Data and Information System (<a href=\"https:\/\/earthdata.nasa.gov\">ESDIS<\/a>) with funding provided by NASA\/HQ.","bg":"#00011D","with_country_name":false},"carto":{"url":"https:\/\/{s}.basemaps.cartocdn.com\/dark_all\/{z}\/{x}\/{y}{r}.png","attrib":"&copy; <a href=\"http:\/\/www.openstreetmap.org\/copyright\" target=\"_blank\" rel=\"noopener\">OpenStreetMap<\/a> contributors, &copy; <a href=\"https:\/\/carto.com\/about-carto\/\">Carto<\/a>","bg":"#262626","with_country_name":false}},
+                    satelliteTle: { },
+                    lsGeoParam: 'geoParams',
+                    defaultMapPos: {"latitude":-31.68931473,"longitude":-39.54774962},
+                    timePicker: {"available":true,"availableDates":["2024-06-05","2024-06-06","2024-06-07"],"assets":{"js":"https:\/\/cdn.jsdelivr.net\/npm\/@easepick\/bundle@1.2.0\/dist\/index.umd.min.js","css":"https:\/\/cdn.jsdelivr.net\/npm\/@easepick\/bundle@1.2.0\/dist\/index.css"},"header":"<a href=\"https:\/\/isstracker.pl\/en\/oauth\/login\" class=\"text-body\" title=\"Login\">Login<\/a>, to select a larger date range!"},
+                    selectedDate: '',
+            }
+            }, {
+                    success: asyncAjaxCallback,
+                    error: asyncAjaxCallback,
+                });
+            });
+            })();
+</script>
+    <div class="modal js-modal-error-iss-js-app" tabindex="-1" role="dialog" style="z-index:1000000000" ><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">Error!</h4></div><div class="modal-body"><p class="js-error-msg"></p></div><div class="modal-footer"><a href="https://isstracker.pl/en" type="button" class="btn btn-primary">HomePage</a></div></div></div></div>
+
+    <script>
+        try {
+            $(window).on('load', function(){
+                if (window.self !== window.top) {
+                    var urlPostfixCallback = (window.location != window.parent.location) ? document.referrer : document.location.href;
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'https://isstracker.pl/en/staty/page_in_iframe?callback=' + urlPostfixCallback,
+                        dataType: 'json',
+                        success: function(data) { }
+                    });
+                }
+            });
+        } catch (e) {  }
+    </script>
+
+<div class="js-scroll-to-next-section-anchor"></div>
